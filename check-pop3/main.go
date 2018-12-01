@@ -16,6 +16,7 @@ var (
 	inittime = time.Now()
 	password = flag.String("password", "password123", "Password to use")
 	ip       = flag.String("ip", "123.123.123.123", "IP address connect to")
+	port     = flag.Int("port", 25, "Port of server")
 	user     = flag.String("user", "root", "User to login as")
 	attempts = flag.Int("attempts", 3, "Amount of times to attempt login")
 	timer    = flag.Duration("timer", 300*time.Millisecond, "Timeout between attempts")
@@ -28,7 +29,7 @@ type resp struct {
 
 func pop3dialer() *resp {
 	exitcode := &resp{}
-	pop, err := pop3.Dial(*ip, pop3.UseTimeout(*timer))
+	pop, err := pop3.Dial(*ip+":"+strconv.Itoa(*port), pop3.UseTimeout(*timer))
 
 	if err = pop.Auth(*user, *password); err == nil {
 		end := time.Now()
