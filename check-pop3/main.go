@@ -27,7 +27,8 @@ type resp struct {
 	mu    sync.Mutex
 }
 
-func pop3dialer() *resp {
+// POP3Dialer - Attempt to authenticate with a POP3 account to determine if the service is available
+func POP3Dialer() *resp {
 	exitcode := &resp{}
 	pop, err := pop3.Dial(*ip+":"+strconv.Itoa(*port), pop3.UseTimeout(*timer))
 
@@ -54,7 +55,7 @@ func main() {
 
 	for attempt := *attempts; attempt != 0; attempt-- {
 		go func() {
-			resp := pop3dialer()
+			resp := POP3Dialer()
 			resp.mu.Lock()
 			if resp.Error == nil {
 				resp.mu.Unlock()

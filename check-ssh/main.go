@@ -27,7 +27,8 @@ type resp struct {
 	mu    sync.Mutex
 }
 
-func sshdialer() *resp {
+// SSHDialer - Attempt to authenticate with an SSH server to confirm it is accessible
+func SSHDialer() *resp {
 	exitcode := &resp{}
 	config := &ssh.ClientConfig{
 
@@ -59,7 +60,7 @@ func main() {
 
 	for attempt := *attempts; attempt != 0; attempt-- {
 		go func() {
-			resp := sshdialer()
+			resp := SSHDialer()
 			resp.mu.Lock()
 			if resp.Error == nil {
 				resp.mu.Unlock()

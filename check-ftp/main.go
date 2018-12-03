@@ -25,7 +25,8 @@ type resp struct {
 	mu    sync.Mutex
 }
 
-func ftpdialer() *resp {
+// FTPDialer - Attempt to make a connection with an FTP server
+func FTPDialer() *resp {
 	exitcode := &resp{}
 	var err error
 	var ftp *goftp.FTP
@@ -53,7 +54,7 @@ func main() {
 
 	for attempt := *attempts; attempt != 0; attempt-- {
 		go func() {
-			resp := ftpdialer()
+			resp := FTPDialer()
 			resp.mu.Lock()
 			if resp.Error == nil {
 				resp.mu.Unlock()

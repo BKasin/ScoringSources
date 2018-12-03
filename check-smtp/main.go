@@ -22,17 +22,18 @@ var (
 	timer    = flag.Duration("timer", 300*time.Millisecond, "Timeout between attempts")
 )
 
-type SmtpServer struct {
+type smtpServer struct {
 	host string
 	port string
 }
 
-func (s *SmtpServer) ServerName() string {
+func (s *smtpServer) ServerName() string {
 	return s.host + ":" + s.port
 }
 
-func smtpdialer() (err error) {
-	smtpServer := SmtpServer{host: *ip, port: strconv.Itoa(*port)}
+// SMTPDialer - Attempt to authenticate with an SMTP server to confirm it is accessible
+func SMTPDialer() (err error) {
+	smtpServer := smtpServer{host: *ip, port: strconv.Itoa(*port)}
 	auth := smtp.PlainAuth("", *user, *password, smtpServer.host)
 
 	client, err := smtp.Dial(smtpServer.host)
@@ -62,7 +63,7 @@ func main() {
 
 	for attempt := *attempts; attempt != 0; attempt-- {
 		go func() {
-			resp := smtpdialer()
+			resp := SMTPDialer()
 			if resp == nil {
 				os.Exit(0)
 			}
