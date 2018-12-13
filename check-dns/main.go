@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -37,27 +38,27 @@ func DNSLookup(recordType uint16) {
 	case "A":
 		for _, ans := range r.Answer {
 			recordAnswer := ans.(*dns.A)
-			log.Printf("%s", recordAnswer.A)
+			fmt.Printf("%s\n", recordAnswer.A)
 		}
 	case "AAAA":
 		for _, ans := range r.Answer {
 			recordAnswer := ans.(*dns.AAAA)
-			log.Printf("%s", recordAnswer.AAAA)
+			fmt.Printf("%s\n", recordAnswer.AAAA)
 		}
 	case "NS":
 		for _, ans := range r.Answer {
 			recordAnswer := ans.(*dns.NS)
-			log.Printf("%s", recordAnswer.Ns)
+			fmt.Printf("%s\n", recordAnswer.Ns)
 		}
 	case "MX":
 		for _, ans := range r.Answer {
 			recordAnswer := ans.(*dns.MX)
-			log.Printf("%s", recordAnswer.Mx)
+			fmt.Printf("%s\n", recordAnswer.Mx)
 		}
 	case "TXT":
 		for _, ans := range r.Answer {
 			recordAnswer := ans.(*dns.TXT)
-			log.Printf("%s", recordAnswer.Txt)
+			fmt.Printf("%s\n", recordAnswer.Txt)
 		}
 	default:
 		log.Fatalln("Please enter a supported record type.")
