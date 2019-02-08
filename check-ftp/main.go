@@ -14,7 +14,7 @@ import (
 
 var (
 	inittime = time.Now()
-	ip       = flag.String("ip", "123.123.123.123", "IP address connect to")
+	host     = flag.String("host", "123.123.123.123", "IP address or FQDN to connect to")
 	port     = flag.Int("port", 21, "Port of server")
 	attempts = flag.Int("attempts", 3, "Amount of times to attempt login")
 	timer    = flag.Duration("timer", 300*time.Millisecond, "Timeout between attempts")
@@ -32,7 +32,7 @@ func FTPDialer() *resp {
 	var ftp *goftp.FTP
 
 	// Attempt FTP connection
-	if ftp, err = goftp.Connect(*ip + ":" + strconv.Itoa(*port)); err == nil {
+	if ftp, err = goftp.Connect(*host + ":" + strconv.Itoa(*port)); err == nil {
 		end := time.Now()
 		d := end.Sub(inittime)
 		duration := d.Seconds()

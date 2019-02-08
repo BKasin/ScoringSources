@@ -15,7 +15,7 @@ import (
 var (
 	inittime = time.Now()
 	password = flag.String("password", "password123", "Password to use")
-	ip       = flag.String("ip", "123.123.123.123", "IP address connect to")
+	host     = flag.String("host", "123.123.123.123", "IP address or FQDN to connect to")
 	port     = flag.Int("port", 22, "Port of server")
 	user     = flag.String("user", "root", "User to login as")
 	attempts = flag.Int("attempts", 3, "Amount of times to attempt login")
@@ -38,7 +38,7 @@ func SSHDialer() *resp {
 		Timeout:         *timer,
 	}
 
-	_, err := ssh.Dial("tcp", *ip+":"+strconv.Itoa(*port), config)
+	_, err := ssh.Dial("tcp", *host+":"+strconv.Itoa(*port), config)
 	if err != nil {
 		fmt.Printf("\nFailed connection")
 	} else {

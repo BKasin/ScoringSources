@@ -16,7 +16,7 @@ var (
 	inittime = time.Now()
 	user     = flag.String("user", "root", "User to login as")
 	password = flag.String("password", "password123", "Password to use")
-	ip       = flag.String("ip", "123.123.123.123", "IP address connect to")
+	host     = flag.String("host", "123.123.123.123", "IP address or FQDN to connect to")
 	port     = flag.Int("port", 25, "Port of server")
 	attempts = flag.Int("attempts", 3, "Amount of times to attempt login")
 	timer    = flag.Duration("timer", 300*time.Millisecond, "Timeout between attempts")
@@ -33,7 +33,7 @@ func (s *smtpServer) ServerName() string {
 
 // SMTPDialer - Attempt to authenticate with an SMTP server to confirm it is accessible
 func SMTPDialer() (err error) {
-	smtpServer := smtpServer{host: *ip, port: strconv.Itoa(*port)}
+	smtpServer := smtpServer{host: *host, port: strconv.Itoa(*port)}
 	auth := smtp.PlainAuth("", *user, *password, smtpServer.host)
 
 	client, err := smtp.Dial(smtpServer.host)
